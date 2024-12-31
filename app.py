@@ -138,7 +138,8 @@ def recognize_speech():
     recognizer = sr.Recognizer()
     try:
         with sr.Microphone() as source:
-            print("Listening...") = recognizer.listen(source, timeout=5, phrase_time_limit=10)
+            print("Listening...") 
+            audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
             text = recognizer.recognize_google()
             print(f"Recognized Speech: {text}")
             return text
