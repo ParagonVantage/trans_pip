@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Meeting with Video, Audio, and Chat</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div>
+            <video id="localVideo" autoplay muted></video>
+            <video id="remoteVideo" autoplay></video>
+        </div>
+        <div>
+            <button id="startCall">Start Call</button>
+            <button id="muteAudio">Mute Audio</button>
+            <button id="unmuteAudio" style="display: none;">Unmute Audio</button>
+            <button id="toggleVideo">Turn Off Video</button>
+            <button id="switchCamera">Switch Camera</button>
+            <button id="shareScreen">Share Screen</button>
+            <br>
+            <button id="startRecording">Start Recording</button>
+            <div id="recordingIndicator" style="display: none;">
+                <span style="color: red; font-size: 1.5em;">●</span> Recording
+            </div>            
+            <button id="stopRecording" style="display: none;">Stop Recording</button>
+
+        </div>
+        <div id="chatContainer">
+            <div id="messages"></div>
+            <input type="text" id="chatInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+        <div>
+            <label for="languageSelector">Translate To:</label>
+            <select id="languageSelector">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="zh">Chinese</option>
+            </select>
+            <button id="startTranslation">Start Live Translation</button>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="/static/audio.js"></script>
+    <script src="/static/video.js"></script>
+    <script src="/static/typing.js"></script>
+    <script src="/static/translation.js"></script>
+</body>
+</html>

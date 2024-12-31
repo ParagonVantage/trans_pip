@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analytics Dashboard</h1>
+    <div class="chart-container">
+        <canvas id="messagesChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="translationsChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="usersChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="callDurationChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="sentimentChart"></canvas>
+    </div>
+
+    <script>
+        // Utility function to create a chart
+        function createChart(ctxId, type, labels, data, backgroundColor, label) {
+            const ctx = document.getElementById(ctxId).getContext('2d');
+            new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        backgroundColor: backgroundColor
+                    }]
+                }
+            });
+        }
+
+        // Fetch analytics data and create charts
+        fetch('/analytics/data')
+            .then(response => response.json())
+            .then(data => {
+                // Messages Chart
+                createChart(
+                    'messagesChart',
+                    'bar',
+                    ['Messages Sent', 'Calls Started', 'Translations Requested'],
+                    [data.messages_sent, data.calls_started, data.translations_requested],
+                    ['#007BFF', '#28A745', '#FFC107'],
+                    'Counts'
+                );
+
+                // Translations Chart
+                createChart(
+                    'translationsChart',
+                    'pie',
+                    Object.keys(data.language_usage),
+                    Object.values(data.language_usage),
+                    ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF'],
+                    'Languages Used'
+                );
+
+                // Users Chart
+                createChart(
+                    'usersChart',
+                    'bar',
+                    ['Unique Users', 'Messages Sent Per User'],
+                    [Object.keys(data.unique_users).length, Object.values(data.messages_per_user).reduce((a, b) => a + b, 0)],
+                    ['#007BFF', '#FFC107'],
+                    'Counts'
+                );
+
+                // Call Duration Chart
+                createChart(
+                    'callDurationChart',
+                    'doughnut',
+                    ['Total Call Duration (seconds)'],
+                    [data.total_call_duration],
+                    ['#28A745'],
+                    'Duration'
+                );
+
+                // Sentiment Chart
+                createChart(
+                    'sentimentChart',
+                    'pie',
+                    ['Positive', 'Negative', 'Neutral'],
+                    [data.positive_messages, data.negative_messages, data.neutral_messages],
+                    ['#28a745', '#dc3545', '#ffc107'],
+                    'Sentiment Analysis'
+                );
+            })
+            .catch(error => {
+                console.error("Error fetching analytics data:", error);
+            });
+    </script>
+</body>
+</html>
