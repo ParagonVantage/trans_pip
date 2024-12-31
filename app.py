@@ -3,6 +3,7 @@ from flask_socketio import SocketIO, emit
 from speech_recognition_handler import speech_to_text_and_translate  # Import non-blocking speech handler
 from translate import translate_text
 from textblob import TextBlob
+import speech_recognition as sr
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='eventlet')
@@ -133,5 +134,20 @@ def analyze_sentiment(message):
     print(f"Message: {message}, Sentiment Score: {polarity}")  # Debug log
     return polarity
 
+def recognize_speech():
+    recognizer = sr.Recognizer()
+    try:
+        with sr.Microphone() as source:
+            print("Listening...") = recognizer.listen(source, timeout=5, phrase_time_limit=10)
+            text = recognizer.recognize_google()
+            print(f"Recognized Speech: {text}")
+            return text
+    except sr.RequestError:
+        print("Could not request results from Google Speech Recognition service")
+        return None
+    except sr.UnknownValueError:
+        print("Could not understand the audio")
+        return None
+    
 if __name__ == '__main__':
     socketio.run(app, debug=True)
