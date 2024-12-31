@@ -4,6 +4,7 @@ from speech_recognition_handler import speech_to_text_and_translate  # Import no
 from translate import translate_text
 from textblob import TextBlob
 import speech_recognition as sr
+import os
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='eventlet')
@@ -151,4 +152,6 @@ def recognize_speech():
         return None
     
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    socketio.run(app, host='0.0.0.0', port=port)
+
