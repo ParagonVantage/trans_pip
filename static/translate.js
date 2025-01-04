@@ -39,6 +39,6 @@ translateNowButton.addEventListener('click', () => {
 socket.on('status', (data) => {
     console.log("Status:", data.message);
     if (data.message.includes("Error")) {
-        alert("Translation Error: " + data.message);
+        alert("Translation Error:" + data.message);
     }
 });
