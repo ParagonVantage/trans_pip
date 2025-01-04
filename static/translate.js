@@ -1,7 +1,8 @@
+// Reverted translation.js to the state before adding the translation indicator
+
 const languageSelector = document.getElementById('languageSelector');
 const startTranslationButton = document.getElementById('startTranslation');
 const translateNowButton = document.getElementById('translateNow');
-const translationIndicator = document.getElementById('translationIndicator');
 const originalText = document.getElementById('originalText').querySelector('span');
 const translatedText = document.getElementById('translatedText').querySelector('span');
 
@@ -17,10 +18,8 @@ languageSelector.addEventListener('change', (event) => {
 startTranslationButton.addEventListener('click', () => {
     socket.emit('start_translation', { language: targetLanguage });
     console.log("Start Live Translation button clicked");
-
-    // Show the translation indicator
-    translationIndicator.style.display = 'inline';
 });
+
 // Display live translation results
 socket.on('translation', (data) => {
     console.log("Translation result received:", data);
