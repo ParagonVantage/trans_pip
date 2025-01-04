@@ -1,5 +1,3 @@
-// Reverted translation.js to the state before adding the translation indicator
-
 const languageSelector = document.getElementById('languageSelector');
 const startTranslationButton = document.getElementById('startTranslation');
 const translateNowButton = document.getElementById('translateNow');
@@ -22,6 +20,10 @@ startTranslationButton.addEventListener('click', () => {
 
 // Display live translation results
 socket.on('translation', (data) => {
+    if (!data.original && !data.translated) {
+        console.error("Translation event received empty data:", data);
+        return;
+    }
     console.log("Translation result received:", data);
     originalText.textContent = data.original || "No speech detected";
     translatedText.textContent = data.translated || "No translation available";
@@ -33,7 +35,10 @@ translateNowButton.addEventListener('click', () => {
     console.log("Translate Now button clicked");
 });
 
-// Display status updates
+// Display status updates and handle errors
 socket.on('status', (data) => {
     console.log("Status:", data.message);
+    if (data.message.includes("Error")) {
+        alert("Translation Error: " + data.message);
+    }
 });
