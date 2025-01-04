@@ -11,17 +11,21 @@ let targetLanguage = "en"; // Default language
 languageSelector.addEventListener('change', (event) => {
     targetLanguage = event.target.value;
     console.log("Target language set to:", targetLanguage);
+});
 
-    translationIndicator.style.display = 'inline';
-});
-socket.on('translationStopped', () => {
-    translationIndicator.style.display = 'none';
-    console.log("Live Translation stopped");
-});
 // Live Translation
 startTranslationButton.addEventListener('click', () => {
     socket.emit('start_translation', { language: targetLanguage });
     console.log("Start Live Translation button clicked");
+
+    // Show the translation indicator
+    translationIndicator.style.display = 'inline';
+});
+
+// Stop Translation (Optional)
+socket.on('translationStopped', () => {
+    translationIndicator.style.display = 'none';
+    console.log("Live Translation stopped");
 });
 
 // Display live translation results
