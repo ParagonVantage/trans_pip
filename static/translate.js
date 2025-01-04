@@ -1,6 +1,7 @@
 const languageSelector = document.getElementById('languageSelector');
 const startTranslationButton = document.getElementById('startTranslation');
 const translateNowButton = document.getElementById('translateNow');
+const translationIndicator = document.getElementById('translationIndicator');
 const originalText = document.getElementById('originalText').querySelector('span');
 const translatedText = document.getElementById('translatedText').querySelector('span');
 
@@ -10,8 +11,13 @@ let targetLanguage = "en"; // Default language
 languageSelector.addEventListener('change', (event) => {
     targetLanguage = event.target.value;
     console.log("Target language set to:", targetLanguage);
-});
 
+    translationIndicator.style.display = 'inline';
+});
+socket.on('translationStopped', () => {
+    translationIndicator.style.display = 'none';
+    console.log("Live Translation stopped");
+});
 // Live Translation
 startTranslationButton.addEventListener('click', () => {
     socket.emit('start_translation', { language: targetLanguage });

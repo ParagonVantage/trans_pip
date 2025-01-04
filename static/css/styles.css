@@ -199,3 +199,19 @@ select {
         height: 120px; /* Further reduce message box height */
     }
 }
+
+#translationIndicator span {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
