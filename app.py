@@ -139,7 +139,8 @@ def recognize_speech():
     recognizer = sr.Recognizer()
     try:
         with sr.Microphone() as source:
-            print("Listening...") = recognizer.listen(source, timeout=5, phrase_time_limit=10)
+            print("Listening...") 
+            audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
             text = recognizer.recognize_google()
             print(f"Recognized Speech: {text}")
             return text
@@ -151,5 +152,4 @@ def recognize_speech():
         return None
     
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    socketio.run(app, host='0.0.0.0', port=port)
+    socketio.run(app, debug=True)
