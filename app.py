@@ -42,14 +42,12 @@ def analytics_data():
 # Handle live speech-to-text translation
 @socketio.on('start_translation')
 def handle_translation(data):
-    global analytics
-    target_language = data.get('language', 'en')  # Default to English
-    analytics['translations_requested'] += 1  # Increment translations count
-    analytics['language_usage'][target_language] = analytics['language_usage'].get(target_language, 0) + 1
-
+    print("Start Translation received:", data)
+    target_language = data.get('language', 'en')
+    print("Target Language:", target_language)
     try:
         speech_to_text_and_translate(target_language)
-        emit('status', {'message': 'Translation process started...'})
+        emit('status', {'message': 'Translation started...'})
     except Exception as e:
         emit('status', {'message': f"Error: {str(e)}"})
 
