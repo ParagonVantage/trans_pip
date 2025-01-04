@@ -21,13 +21,6 @@ startTranslationButton.addEventListener('click', () => {
     // Show the translation indicator
     translationIndicator.style.display = 'inline';
 });
-
-// Stop Translation (Optional)
-socket.on('translationStopped', () => {
-    translationIndicator.style.display = 'none';
-    console.log("Live Translation stopped");
-});
-
 // Display live translation results
 socket.on('translation', (data) => {
     console.log("Translation result received:", data);
