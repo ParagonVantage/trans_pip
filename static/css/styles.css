@@ -136,3 +136,65 @@ select {
         opacity: 1;
     }
 }
+/* General Styles for Mobile */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Adjust font size for smaller screens */
+        padding: 10px;
+    }
+
+    .container {
+        flex-direction: column;
+        gap: 15px; /* Increase spacing between elements */
+    }
+
+    video {
+        width: 90%; /* Make video full-width on smaller screens */
+    }
+
+    button {
+        width: 100%; /* Make buttons full-width */
+        font-size: 14px; /* Adjust button font size */
+    }
+
+    #chatContainer {
+        width: 100%; /* Full-width chat container */
+    }
+
+    #messages {
+        height: 150px; /* Adjust message box height */
+    }
+
+    #chatInput {
+        width: 100%; /* Full-width chat input */
+    }
+
+    label, select, #startTranslation {
+        width: 100%; /* Full-width dropdown and button */
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+/* Extra Small Screens (e.g., phones) */
+@media (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+
+    video {
+        width: 100%; /* Maximize video on very small screens */
+    }
+
+    #chatContainer {
+        margin-top: 10px;
+    }
+
+    button {
+        padding: 8px 12px; /* Smaller button padding */
+    }
+
+    #messages {
+        height: 120px; /* Further reduce message box height */
+    }
+}
