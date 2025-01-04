@@ -21,7 +21,6 @@ analytics = {
     "neutral_messages": 0    # Count of neutral messages
 }
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -39,7 +38,6 @@ def analytics_page():
 @app.route('/analytics/data')
 def analytics_data():
     return analytics  # Sentiment counts are already part of the `analytics` dictionary
-
 
 # Handle live speech-to-text translation
 @socketio.on('start_translation')
@@ -80,19 +78,12 @@ def handle_chat(data):
         print(f"Translation error: {e}")
         translated_message = message  # Fallback to the original message
 
-    emit('chat', {
-        'message': message,
-        'translatedMessage': translated_message,
-        'sender': sender_id
-    }, broadcast=True)
-
-
     # Emit chat message with sentiment
     emit('chat', {
         'message': message,
         'translatedMessage': translated_message,
         'sender': sender_id,
-        'sentiment': sentiment # type: ignore
+        'sentiment': "positive" if sentiment_score > 0 else "negative" if sentiment_score < 0 else "neutral"
     }, broadcast=True)
 
 # Handle WebRTC signaling
@@ -141,7 +132,7 @@ def recognize_speech():
         with sr.Microphone() as source:
             print("Listening...") 
             audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
-            text = recognizer.recognize_google()
+            text = recognizer.recognize_google(audio)  # Fixed missing parameter
             print(f"Recognized Speech: {text}")
             return text
     except sr.RequestError:
@@ -152,4 +143,5 @@ def recognize_speech():
         return None
     
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    socketio.run(app, host='0.0.0.0', port=port, debug=True)
